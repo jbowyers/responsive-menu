@@ -18,7 +18,7 @@
 #### Basic Setup ####
 
 * **Download** - Download and extract the Responsive Menu zip files
-* **Copy file**s - Copy the responsive-menu.js and responsive-menu.css files to your project
+* **Copy files** - Copy the responsive-menu.js and responsive-menu.css files to your project
 * **Setup Menu HTML** - Open the menu.html sample file and copy and past the menu html into the html files in your project. Or, setup existing menus in your project to work with Responsive Menu (see Configuration).
 * **Link to CSS and JavaScript files** - Add link and script references to your HTML files
 * **Initialize Responsive Menu** - Activate the plugin using jQuery (see Configuration)
