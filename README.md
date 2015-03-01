@@ -9,7 +9,7 @@
 * **Author**: John Bowyer-Smyth
 * **Copyright**: Copyright 2015 John Bowyer-Smyth
 * **License**: MIT
-* **Version: 0.1.0**
+* **Version: 0.1.1**
 
 ## How do I get set up? ##
 
