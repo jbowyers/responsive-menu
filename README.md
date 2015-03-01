@@ -2,11 +2,11 @@
 
 ## What is this repository for? ##
 
-**Responsive Menu** is a drop-down menu for responsive websites. It is a **jQuery plugin** that includes a JavaScipt file and CSS file as well as sample HTML.
+**jQuery Responsive Menu** is a drop-down menu for responsive websites. It is a **jQuery plugin** that includes a JavaScript file and CSS file as well as sample HTML.
 
-* **Description**: Drop-down Menu for responsive layouts
+* **Description**: Drop-down Menu jQuery plugin for responsive layouts
 * **Requires**: jQuery
-* **Author**: John Bowyer-Smyth
+* **Author**: jbowyers
 * **Copyright**: Copyright 2015 John Bowyer-Smyth
 * **License**: MIT
 * **Version: 0.1.1**
@@ -66,4 +66,4 @@ Contributions are much appreciated and welcomed.
 
 ### Who do I talk to? ###
 
-John Bowyer-Smyth
+jbowyers
