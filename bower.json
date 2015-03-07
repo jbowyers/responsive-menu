@@ -2,7 +2,7 @@
   "name": "jquery-responsive-menu",
   "version": "0.1.2",
   "authors": [
-    "John Bowyer-Smyth"
+    "jbowyers"
   ],
   "description": "A jQuery plugin for responsive drop-down navigation menus",
   "main": [
