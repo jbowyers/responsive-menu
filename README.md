@@ -11,7 +11,7 @@ JavaScript file and CSS file as well as sample HTML.
 * **Author**: jbowyers
 * **Copyright**: 2015 jbowyers
 * **License**: GPLv3
-* **Version: 0.1.2**
+* **Version: 0.1.4**
 
 ## Demo ##
 
