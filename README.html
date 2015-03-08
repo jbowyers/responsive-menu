@@ -35,6 +35,50 @@ html files in your project. Or, setup existing menus in your project to work wit
 <p><strong>Options</strong>: rm-lighten, rm-darken.<br>rm-lighten theme lightens menu item backgrounds and is best used if your design requires a dark menu background color.
 rm-darken theme darkens menu item backgrounds and is best used if your design required a light menu background color.
 You can set the menu background color to any color to work with the chosen theme.</p>
+<h3 id="sample-jquery">Sample jQuery</h3>
+<pre><code>                jQuery(function ($) {
+    var menu = $(&#39;.rm-nav&#39;).rMenu({
+
+        // Optional Settings
+        minWidth: &#39;960px&#39;,
+
+    });
+});</code></pre>
+<h3 id="full-list-of-options">Full List of Options</h3>
+<h4 id="minwidth">minWidth</h4>
+<p>Minimum width for expanded layout in pixels - String<br>Should match media query in css file. Must be in pixels and include px units if not using Modernizr.<br>default: &#39;769px&#39;</p>
+<h4 id="transitionspeed">transitionSpeed</h4>
+<p>The opening and closing speed of the menus in milliseconds<br>default: 400</p>
+<h4 id="jqueryeasing">jqueryEasing</h4>
+<p>The jQuery easing function - used with jQuery transitions<br>default: &#39;swing&#39;<br>options: &#39;swing&#39;, &#39;linear&#39;</p>
+<h4 id="css3easing">css3Easing</h4>
+<p>The CSS3 transitions easing function - used with CSS3 transitions<br>default: &#39;ease&#39;</p>
+<h4 id="togglebtnbool">toggleBtnBool</h4>
+<p>Use button as Toggle Link - instead of text<br>default: true</p>
+<h4 id="togglesel">toggleSel</h4>
+<p>The Toggle Link selector<br>default: &#39;.rm-toggle&#39;</p>
+<h4 id="menusel">menuSel</h4>
+<p>The menu/sub-menu selector<br>default: &#39;ul&#39;</p>
+<h4 id="menuitemssel">menuItemsSel</h4>
+<p>The menu items selector<br>default: &#39;li&#39;</p>
+<h4 id="containerclass">containerClass</h4>
+<p>The class the plugin adds to the container of the nav element<br>default: &#39;rm-container&#39;</p>
+<h4 id="navelementclass">navElementClass</h4>
+<p>The class the plugin adds to the nav element<br>default: &#39;rm-nav&#39;</p>
+<h4 id="topmenuclass">topMenuClass</h4>
+<p>The class the plugin adds to the top menu element<br>default: &#39;rm-top-menu&#39;</p>
+<h4 id="parentclass">parentClass</h4>
+<p>The class applied to menu items that contain a sub-menu<br>default: &#39;rm-parent&#39;</p>
+<h4 id="expandedclass">expandedClass</h4>
+<p>The class applied to container element to trigger expanded layout<br>default: &#39;rm-layout-expanded&#39;</p>
+<h4 id="contractedclass">contractedClass</h4>
+<p>The class applied to container element to trigger contracted layout<br>default: &#39;rm-layout-contracted&#39;</p>
+<h4 id="animateclass">animateClass</h4>
+<p>Use CSS3 animation/transitions class name<br>default: &#39;rm-css-animate&#39;<br>Do not use animation/transitions: &#39;&#39;</p>
+<h4 id="accelerateclass">accelerateClass</h4>
+<p>Force GPU Acceleration class name<br>default: &#39;rm-accelerate&#39;<br>Do not force: &#39;&#39;</p>
+<h4 id="developmentmode">developmentMode</h4>
+<p>Use development mode - outputs information to console<br>default: false</p>
 <h3 id="the-toggle-button">The Toggle Button</h3>
 <p>An optional menu-btn.png file is included. By default, the same image is included in the CSS as a data URI
 so the png file is not required unless you would prefer to use the png file instead of the data URI.</p>

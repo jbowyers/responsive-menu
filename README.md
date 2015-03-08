@@ -46,6 +46,91 @@ rm-lighten theme lightens menu item backgrounds and is best used if your design 
 rm-darken theme darkens menu item backgrounds and is best used if your design required a light menu background color.
 You can set the menu background color to any color to work with the chosen theme.
 
+### Sample jQuery ###
+
+                    jQuery(function ($) {
+        var menu = $('.rm-nav').rMenu({
+
+            // Optional Settings
+            minWidth: '960px',
+    
+        });
+    });
+
+### Full List of Options ###
+
+#### minWidth ####
+Minimum width for expanded layout in pixels - String  
+Should match media query in css file. Must be in pixels and include px units if not using Modernizr.  
+default: '769px'
+
+#### transitionSpeed ####
+The opening and closing speed of the menus in milliseconds  
+default: 400
+
+#### jqueryEasing ####
+The jQuery easing function - used with jQuery transitions  
+default: 'swing'  
+options: 'swing', 'linear'
+
+#### css3Easing ####
+The CSS3 transitions easing function - used with CSS3 transitions  
+default: 'ease'
+
+#### toggleBtnBool ####
+Use button as Toggle Link - instead of text  
+default: true
+
+#### toggleSel ####
+The Toggle Link selector  
+default: '.rm-toggle'
+
+#### menuSel ####
+The menu/sub-menu selector  
+default: 'ul'
+
+#### menuItemsSel ####
+The menu items selector  
+default: 'li'
+
+#### containerClass ####
+The class the plugin adds to the container of the nav element  
+default: 'rm-container'
+
+#### navElementClass ####
+The class the plugin adds to the nav element  
+default: 'rm-nav'
+
+#### topMenuClass ####
+The class the plugin adds to the top menu element  
+default: 'rm-top-menu'
+
+#### parentClass ####
+The class applied to menu items that contain a sub-menu  
+default: 'rm-parent'
+
+#### expandedClass ####
+The class applied to container element to trigger expanded layout  
+default: 'rm-layout-expanded'
+
+#### contractedClass ####
+The class applied to container element to trigger contracted layout  
+default: 'rm-layout-contracted'
+
+#### animateClass ####
+Use CSS3 animation/transitions class name  
+default: 'rm-css-animate'  
+Do not use animation/transitions: ''
+
+#### accelerateClass ####
+Force GPU Acceleration class name  
+default: 'rm-accelerate'  
+Do not force: ''
+
+#### developmentMode ####
+Use development mode - outputs information to console  
+default: false
+
 ### The Toggle Button ###
 
 An optional menu-btn.png file is included. By default, the same image is included in the CSS as a data URI
