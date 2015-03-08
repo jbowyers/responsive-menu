@@ -6,11 +6,11 @@
   ],
   "description": "A jQuery plugin for responsive drop-down navigation menus",
   "main": [
-    "dist/responsive-menu.js",
-    "dist/responsive-menu.css",
-    "dist/responsive-menu.min.js",
-    "dist/responsive-menu.min.css",
-    "dist/menu-btn.png"
+    "dist/js/responsive-menu.js",
+    "dist/css/responsive-menu.css",
+    "dist/js/responsive-menu.min.js",
+    "dist/css/responsive-menu.min.css",
+    "dist/css/menu-btn.png"
   ],
   "keywords": [
     "jQuery",

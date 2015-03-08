@@ -37,18 +37,18 @@
   "directories": {
       "src": {
 		"root": "./src",
-		"js":"./src",
-		"css": "./src",
-        "images": "./src",
-        "lib": "./lib",
+		"js":"./src/js",
+		"css": "./src/css",
+        "lib": "./src/lib",
+        "images": "./src/images",
         "html": "./src"
       },
       "dist": {
         "root": "./dist",
-        "js":"./dist",
-        "css": "./dist",
-        "images": "./dist",
-        "lib": "./lib",
+        "js":"./dist/js",
+        "css": "./dist/css",
+        "images": "./dist/images",
+        "lib": "./dist/lib",
         "html": "./dist"
       },
       "deploy": {
@@ -59,7 +59,14 @@
         "lib": "./../lib",
         "html": "./"
       },
-      "demo": "./demo",
+      "demo": {
+        "root": "./demo",
+        "js":"./demo/js",
+        "css": "./demo/css",
+        "images": "./demo/images",
+        "lib": "./demo/lib",
+        "html": "./demo"
+      },
       "doc": "./doc",
       "lib": "./lib",
       "templates": "./templates",

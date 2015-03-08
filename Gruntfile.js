@@ -56,12 +56,6 @@ module.exports = function (grunt) {
 		copy: {
 			dist: {
 				files: [
-					{
-						expand: true,
-						cwd: '<%= pkg.directories.src.js %>',
-						src: ['**'],
-						dest: '<%= pkg.directories.dist.js %>/src'
-					},
                     {
                         expand: true,
                         cwd: '<%= pkg.directories.src.js %>',
@@ -74,24 +68,18 @@ module.exports = function (grunt) {
 						src: ['**'],
 						dest: '<%= pkg.directories.dist.lib %>'
 					},
-					{
-						expand: true,
-						cwd: '<%= pkg.directories.src.css %>',
-						src: ['**/*.css'],
-						dest: '<%= pkg.directories.dist.css %>/src'
-					},
                     {
                         expand: true,
                         cwd: '<%= pkg.directories.src.css %>',
-                        src: ['**/*.css'],
+                        src: ['**'],
                         dest: '<%= pkg.directories.dist.css %>'
                     },
-					{
-						expand: true,
-						cwd: '<%= pkg.directories.src.images %>',
-						src: ['**'],
-						dest: '<%= pkg.directories.dist.images %>'
-					}
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.src.html %>',
+                        src: [ '*.html' ],
+                        dest: '<%= pkg.directories.dist.html %>'
+                    }
 				]
 			},
 			deploy: {
@@ -127,8 +115,76 @@ module.exports = function (grunt) {
 						dest: '<%= pkg.directories.deploy.html %>'
 					}
 				]
-			}
+			},
+            demo: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.dist.js %>',
+                        src: ['**'],
+                        dest: '<%= pkg.directories.demo.js %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.dist.lib %>',
+                        src: ['**'],
+                        dest: '<%= pkg.directories.demo.lib %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.dist.css %>',
+                        src: ['**'],
+                        dest: '<%= pkg.directories.demo.css %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.src.images %>',
+                        src: ['**'],
+                        dest: '<%= pkg.directories.demo.images %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.directories.templates %>',
+                        src: ['README.html'],
+                        dest: './'
+                    },
+                    {
+                        expand: true,
+                        src: ['LICENCE.txt'],
+                        dest: '<%= pkg.directories.demo.root %>'
+                    }
+                ]
+            }
 		},
+        markdown: {
+            readme: {
+                files: [
+                    {
+                        expand: true,
+                        src: 'README.md',
+                        dest: '<%= pkg.directories.templates %>',
+                        ext: '.html'
+                    }
+                ],
+                options: {
+                    template: '<%= pkg.directories.templates %>/md-blank.html'
+                }
+            }
+        },
+        includes: {
+            demo: {
+                options: {
+                    includePath: '<%= pkg.directories.templates %>'
+                },
+                files: [
+                    {
+                        cwd: '<%= pkg.directories.src.root %>',
+                        src: 'demo.html', // Source files
+                        dest: '<%= pkg.directories.demo.root %>/index.html' // Destination file
+                    }
+                ]
+            }
+        },
 		watch: {
 			js: {
 				files: ['<%= pkg.directories.src.js %>/**/*.js' ],
@@ -329,7 +385,14 @@ module.exports = function (grunt) {
                     '<%= pkg.directories.dist.js %>/<%= pkg.fileNames.js %>.js',
                     '<%= pkg.directories.dist.css %>/<%= pkg.fileNames.css %>.min.css',
                     '<%= pkg.directories.dist.js %>/<%= pkg.fileNames.js %>.min.js',
-                    'README.md'],
+                    '<%= pkg.directories.demo.css %>/<%= pkg.fileNames.css %>.css',
+                    '<%= pkg.directories.demo.js %>/<%= pkg.fileNames.js %>.js',
+                    '<%= pkg.directories.demo.css %>/<%= pkg.fileNames.css %>.min.css',
+                    '<%= pkg.directories.demo.js %>/<%= pkg.fileNames.js %>.min.js',
+                    '<%= pkg.directories.demo.root %>/index.html',
+                    '<%= pkg.directories.templates %>/README.html',
+                    'README.md',
+                    'README.html'],
                 commitFiles: [
                     'package.json',
                     'bower.json',
@@ -339,7 +402,14 @@ module.exports = function (grunt) {
                     '<%= pkg.directories.dist.js %>/<%= pkg.fileNames.js %>.js',
                     '<%= pkg.directories.dist.css %>/<%= pkg.fileNames.css %>.min.css',
                     '<%= pkg.directories.dist.js %>/<%= pkg.fileNames.js %>.min.js',
-                    'README.md'],
+                    '<%= pkg.directories.demo.css %>/<%= pkg.fileNames.css %>.css',
+                    '<%= pkg.directories.demo.js %>/<%= pkg.fileNames.js %>.js',
+                    '<%= pkg.directories.demo.css %>/<%= pkg.fileNames.css %>.min.css',
+                    '<%= pkg.directories.demo.js %>/<%= pkg.fileNames.js %>.min.js',
+                    '<%= pkg.directories.demo.root %>/index.html',
+                    '<%= pkg.directories.templates %>/readme.html',
+                    'readme.md',
+                    'readme.html'],
                 push: false
             }
         }
@@ -356,6 +426,8 @@ module.exports = function (grunt) {
 	grunt.registerTask( 'concatenate', [ 'concat:js', 'concat:css' ] );
 	grunt.registerTask( 'minify', [ 'uglify', 'cssmin' ] );
 	grunt.registerTask( 'build', [ 'modernizr', 'copy:dist', 'minify' ] );
+    grunt.registerTask( 'demo', [ 'build', 'markdown:readme', 'includes:demo', 'copy:demo' ] );
 	grunt.registerTask( 'deploy', [ 'build', 'copy:deploy' ] );
 	grunt.registerTask( 'default', [ 'shell:watch', 'lint' ] );
+
 };

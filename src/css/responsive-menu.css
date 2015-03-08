@@ -62,9 +62,6 @@ to work with the chosen theme.
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 }
 
 /* Menu Container Element */
@@ -217,6 +214,11 @@ to work with the chosen theme.
 }
 
 /* Expanded Layout styles - .rm-layout-expanded class is applied by plugin ========= */
+
+.rm-layout-expanded .rm-nav > ul,
+.rm-layout-expanded .rm-top-menu {
+    margin-bottom: 0;
+}
 
 .rm-layout-expanded .rm-nav > ul > li,
 .rm-layout-expanded .rm-top-menu > .rm-menu-item {
