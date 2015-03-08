@@ -6,9 +6,21 @@
  * Description: A drop-down responsive Menu for responsive layouts
  * Requires: jQuery
  * Optional: Modernizr
- * Author: JBS
- * Copyright: Copyright 2015 John Bowyer-Smyth
- * License: MIT
+ * Author: jbowyers
+ * Copyright: 2014-2015 jbowyers
+ * License: This file is part of Responsive Menu.
+ * Responsive Menu is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Responsive Menu is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
 ;(function( $, window, document, Math, undefined ) {

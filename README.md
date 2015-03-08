@@ -10,7 +10,7 @@ JavaScript file and CSS file as well as sample HTML.
 * **Requires**: jQuery
 * **Author**: jbowyers
 * **Copyright**: 2015 jbowyers
-* **License**: MIT
+* **License**: GPLv3
 * **Version: 0.1.2**
 
 ## Demo ##
