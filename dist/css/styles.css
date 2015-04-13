@@ -35,8 +35,12 @@ h4, h5, h6 {
 h1 {
     font-size: 28px;
 }
-pre {
+
+.main .dev-output pre {
     overflow: auto;
+    max-height: 500px;
+    background-color: #EBF4FD;
+    padding: 0 1em 1em;
 }
 .brand {
     float: left;

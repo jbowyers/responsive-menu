@@ -33,12 +33,13 @@ The Responsive Menu repo is registered as a bower package as jquery-responsive-m
 ## Configuration ##
 
 ### Suggested HTML ###
+```
 
-                <div class="rm-container">
-    <a class="rm-toggle rm-button rm-nojs" href="#">Menu</a>
-    <nav class="rm-nav rm-nojs rm-lighten">
-        <ul>
-
+    <div class="rm-container">
+        <a class="rm-toggle rm-button rm-nojs" href="#">Menu</a>
+        <nav class="rm-nav rm-nojs rm-lighten">
+            <ul> ...
+```
 ### Theme class options ###
 
 **Options**: rm-lighten, rm-darken.  
@@ -47,8 +48,9 @@ rm-darken theme darkens menu item backgrounds and is best used if your design re
 You can set the menu background color to any color to work with the chosen theme.
 
 ### Sample jQuery ###
+```
 
-                    jQuery(function ($) {
+    jQuery(function ($) {
         var menu = $('.rm-nav').rMenu({
 
             // Optional Settings
@@ -56,7 +58,7 @@ You can set the menu background color to any color to work with the chosen theme
     
         });
     });
-
+```
 ### Full List of Options ###
 
 #### minWidth ####
