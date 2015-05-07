@@ -601,6 +601,7 @@
                         'max-height': '0'
                     } )
                     .removeClass( 'rm-menu-expanded' )
+                    .off( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd' )
                 ;
 
                 if ( $el.hasClass( o.options.topMenuClass ) ) { // is topMenu
@@ -611,7 +612,6 @@
                         .show( 0 );
                 }
             }
-
         };
 
         /**
@@ -632,9 +632,9 @@
                         'max-height': 'none'
                     } )
                     .addClass( 'rm-menu-expanded' )
+                    .off( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd' )
                 ;
             }
-
         };
 
         // Internal Helper Functions ===============================================
@@ -660,13 +660,14 @@
                     if ( $el.height() !== 0 ) {
                         $el
                             .css( {
-                                'max-height': $el.height()
+                                'max-height': $el.height(),
+                                'transition': 'max-height ' + String( o.options.transitionSpeed / 1000 ) + 's ' + o.options.css3Easing
                             } )
+                            .on( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', transitionEndContract )
                         ;
                     } else {
                         $menus.not( $el );
                     }
-
                 });
 
                 // Must force a redraw so transition will occur
@@ -675,11 +676,10 @@
                 // Contract menu
                 $menus
                     .css( {
-                        'transition': 'max-height ' + String( o.options.transitionSpeed / 1000 ) + 's ' + o.options.css3Easing,
+
                         'max-height': '0'
                     })
                     .removeClass( 'rm-menu-expanded' )
-                    .one( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', transitionEndContract )
                 ;
 
             } else { // Use jQuery animation
@@ -715,7 +715,7 @@
                         'transition': 'max-height ' + String( o.options.transitionSpeed / 1000 ) + 's ' + o.options.css3Easing,
                         'max-height': $menu.data('height')
                     })
-                    .one( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', transitionEndExpand )
+                    .on( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', transitionEndExpand )
                 ;
             } else { // Use jQuery animation
 
