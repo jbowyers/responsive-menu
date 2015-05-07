@@ -1,7 +1,7 @@
 {
   "name": "jquery-responsive-menu",
   "title": "jQuery Responsive Menu",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A jQuery plugin for making navigation menus responsive",
   "main": "dist/responsive-menu.js",
   "homepage": "",
