@@ -1,8 +1,9 @@
 module.exports = function (grunt) {
 
-	// Project configuration ---------------------------------------------------
-	grunt.initConfig({
-		pkg: grunt.file.readJSON( 'package.json' ),
+    // Project configuration ---------------------------------------------------
+    grunt.initConfig({
+        pkg: grunt.file.readJSON( 'package.json' ),
+
 		bower: {
 			install: {
 				options: {
@@ -179,7 +180,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: '<%= pkg.directories.src.root %>',
-                        src: 'demo.html', // Source files
+                        src: '<%= pkg.fileNames.demo %>.html', // Source files
                         dest: '<%= pkg.directories.demo.root %>/index.html' // Destination file
                     }
                 ]
@@ -324,10 +325,10 @@ module.exports = function (grunt) {
 		modernizr: {
 			dist: {
 				// [REQUIRED] Path to the build you're using for development.
-				"devFile": "remote",
+				"devFile": 'remote',
 
 				// [REQUIRED] Path to save out the built file.
-				"outputFile": "<%= pkg.directories.src.lib %>/modernizr/modernizr-custom.js",
+				"outputFile": '<%= pkg.directories.src.lib %>/modernizr/modernizr-custom.js',
 
 				// Based on default settings on http://modernizr.com/download/
 				"extra": {
@@ -412,10 +413,29 @@ module.exports = function (grunt) {
                     'README.html'],
                 push: false
             }
+        },
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src: [
+                        '<%= pkg.directories.src.root %>/*.html',
+                        '<%= pkg.directories.src.js %>/*.js',
+                        '<%= pkg.directories.src.css %>/*.css',
+                        '<%= pkg.directories.lib %>/**/*',
+                        '<%= pkg.directories.src.images %>/*'
+                    ]
+                },
+                options: {
+                    server: {
+                        baseDir: '<%= pkg.directories.src.root %>',
+                        index: '<%= pkg.fileNames.demo %>.html'
+                    }
+                }
+            }
         }
 	});
 	// set the grunt force option
-	grunt.option("force", true);
+	grunt.option( 'force', true );
 
 	// Load grunt tasksfrom NPM packages
 	require( 'load-grunt-tasks' )( grunt );
