@@ -1,7 +1,7 @@
 
 /**
  * Responsive Menu
- * Version: 0.1.7
+ * Version: 0.1.8
  * URL: private
  * Description: A drop-down responsive Menu for responsive layouts
  * Requires: jQuery
