@@ -80,9 +80,11 @@ h1 {
 .rm-container.rm-layout-expanded {
     float: right;
 }
-.rm-nav a,
+.rm-nav li a,
 .rm-top-menu a {
+    padding: .75rem 1rem;
     font-size: .9em;
+    line-height: 1.5rem;
     text-transform: uppercase;
 }
 .rm-layout-expanded .rm-nav > ul > li > a,
@@ -112,6 +114,7 @@ h1 {
     font-size: 1.3em;
 }
 .dev-output {
+    background-color: #e1eaf3; /* fall-back */
     background-color: rgba(255,255,255,.85);
     color: #000;
     padding: 2em;
