@@ -77,6 +77,7 @@ to work with the chosen theme.
     list-style: none;
     padding: 0;
     margin-left: 0;
+    margin-bottom: 0;
     zoom: 1;
 }
 
@@ -85,9 +86,13 @@ to work with the chosen theme.
 .rm-menu-item {
     position: relative;
 }
+.rm-nav > ul > .rm-last,
+.rm-top-menu > .rm-last {
+    margin-bottom: 1em;
+}
 .rm-nav li a,
 .rm-menu-item a {
-    padding: .5em 1em;
+    padding: .75em 1em;
     display: block;
     position: relative;
     color:#fff;
@@ -223,6 +228,10 @@ to work with the chosen theme.
 .rm-layout-expanded .rm-nav > ul > li,
 .rm-layout-expanded .rm-top-menu > .rm-menu-item {
     float: left;
+}
+.rm-layout-expanded .rm-nav > ul > .rm-last,
+.rm-layout-expanded .rm-top-menu > .rm-last {
+    margin-bottom: 0;
 }
 .rm-layout-expanded .rm-nav > ul > li > a,
 .rm-layout-expanded .rm-top-menu > .rm-menu-item > a {
