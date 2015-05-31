@@ -109,7 +109,8 @@ to work with the chosen theme.
     z-index: 500;
     zoom: 1;
 }
-.rm-nav .rm-hover ul {
+.rm-nav .rm-hover ul,
+.rm-nav .rm-hover .rm-menu {
     z-index: 600;
 }
 
@@ -209,7 +210,6 @@ to work with the chosen theme.
     background-color: rgb(160, 160, 160); /* fallback */
     background-color: rgba(0, 0, 0, .2);
 }
-
 .rm-darken li li li a:focus,
 .rm-darken li li li.rm-hover > a,
 .rm-darken .rm-menu-item .rm-menu-item .rm-menu-item a:focus,
@@ -242,12 +242,14 @@ to work with the chosen theme.
 }
 .rm-layout-expanded li ul,
 .rm-layout-expanded .rm-menu-item .rm-menu {
-    width: 16em;
+    width: 15em;
     position: absolute;
     left: 0;
 }
 .rm-layout-expanded li.rm-last ul,
-.rm-layout-expanded .rm-menu-item.rm-last .rm-menu {
+.rm-layout-expanded .rm-menu-item.rm-last .rm-menu,
+.rm-layout-expanded li.rm-2nd-last ul,
+.rm-layout-expanded .rm-menu-item.rm-2nd-last .rm-menu {
     left: auto;
     right: 0;
 }
@@ -256,6 +258,13 @@ to work with the chosen theme.
     position: absolute;
     left: 100%;
     top: 0;
+}
+.rm-layout-expanded li li.rm-last ul,
+.rm-layout-expanded .rm-menu-item .rm-menu-item.rm-last .rm-menu,
+.rm-layout-expanded li li.rm-2nd-last ul,
+.rm-layout-expanded .rm-menu-item .rm-menu-item.rm-2nd-last .rm-menu{
+    right: 100%;
+    left: auto;
 }
 .rm-layout-expanded li a,
 .rm-layout-expanded li li a,
@@ -283,7 +292,9 @@ to work with the chosen theme.
 
 /* Hide Sub Menus */
 .no-js .rm-nav li ul,
-.rm-nojs li ul {
+.rm-nojs li ul,
+.no-js .rm-nav .rm-menu-item .rm-menu,
+.rm-nojs .rm-menu-item .rm-menu {
     position: absolute;
     left: -999em;
 }
@@ -297,12 +308,16 @@ to work with the chosen theme.
 @media screen and ( min-width: 769px ) {
 
     .rm-nojs > ul > li,
-    .no-js .rm-nav > ul > li {
+    .no-js .rm-nav > ul > li,
+    .rm-nojs > .rm-menu > .rm-menu-item,
+    .no-js .rm-nav > .rm-menu > .rm-menu-item {
         float: left;
     }
 
     .rm-nojs li a,
-    .no-js .rm-nav li a {
+    .no-js .rm-nav li a,
+    .rm-nojs .rm-menu-item a,
+    .no-js .rm-nav .rm-menu-item a {
         padding-left: 1em;
     }
 
@@ -310,12 +325,18 @@ to work with the chosen theme.
     .rm-nojs > ul:before,
     .rm-nojs > ul:after,
     .no-js .rm-nav > ul:before,
-    .no-js .rm-nav > ul:after {
+    .no-js .rm-nav > ul:after,
+    .rm-nojs > .rm-menu:before,
+    .rm-nojs > .rm-menu:after,
+    .no-js .rm-nav > .rm-menu:before,
+    .no-js .rm-nav > .rm-menu:after{
         content: " ";
         display: table;
     }
     .rm-nojs > ul:after,
-    .no-js .rm-nav > ul:after {
+    .no-js .rm-nav > ul:after,
+    .rm-nojs > .rm-menu:after,
+    .no-js .rm-nav > .rm-menu:after {
         clear: both;
     }
     .rm-toggle.rm-nojs {

@@ -147,6 +147,12 @@
             accelerateClass: 'rm-accelerate',
 
             /**
+             * the setup complete callback function
+             * @default 'false'
+             */
+            setupCallback: false,
+
+            /**
              * Use development mode - outputs information to console
              * @default false
              */
@@ -195,6 +201,7 @@
 
             // Window event handlers
             $( window ).on({
+
                 // Reset on screen resize
                 'resize': function() {
 
@@ -217,6 +224,11 @@
                     contract( o.topMenu);
                 }
             );
+
+            // Run setupCallback function
+            if ( typeof( o.options.setupCallback ) === "function" ) {
+                o.options.setupCallback();
+            }
 
             return this;
         };
@@ -246,8 +258,11 @@
                 .addClass( o.options.navElementClass )
                 .off( 'click.rm' )
                 .on( 'click.rm', '.' + o.options.parentClass, parentClick )
-                    .find( o.options.menuItemsSel + ':first-child' ).addClass( 'rm-first' ).end()
-                    .find( o.options.menuItemsSel + ':last-child' ).addClass( 'rm-last' ).end()
+                    .find( o.options.menuItemsSel + ':first-child' )
+                        .addClass( 'rm-first' ).end()
+                    .find( o.options.menuItemsSel + ':last-child' )
+                        .addClass( 'rm-last' )
+                            .prev().addClass( 'rm-2nd-last' ).end().end()
                     .find( o.options.menuItemsSel )
                         .addClass( 'rm-menu-item')
                         .addBack()
