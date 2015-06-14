@@ -86,58 +86,33 @@
                 //menuItemsSel: 'li',
 
                 /**
-                 * The class the plugin adds to the container of the nav element
-                 * @default 'rm-container'
+                 * Use CSS3 animation/transitions Boolean
+                 * @default true
+                 * Do not use animation/transitions: false
                  */
-                //containerClass: 'rm-container',
+                //animateBool: false,
 
                 /**
-                 * The class the plugin adds to the nav element
-                 * @default 'rm-nav'
+                 * Force GPU Acceleration Boolean
+                 * @default false
+                 * Do not force: false
                  */
-                //navElementClass: 'rm-nav',
+                //accelerateBool: true,
 
                 /**
-                 * The class the plugin adds to the top menu element
-                 * @default 'rm-top-menu'
+                 * the setup complete callback function
+                 * @default 'false'
                  */
-                //topMenuClass: 'rm-top-menu',
+                //setupCallback: false,
 
                 /**
-                 * The class applied to menu items that contain a sub-menu
-                 * @default 'rm-parent'
+                 * the tabindex start value - integer
+                 * @default 1
                  */
-                //parentClass: 'rm-parent',
+                //tabindexStart: 5,
 
                 /**
-                 * The class applied to container element to trigger expanded layout
-                 * @default 'rm-layout-expanded'
-                 */
-                //expandedClass: 'rm-layout-expanded',
-
-                /**
-                 * The class applied to container element to trigger contracted layout
-                 * @default 'rm-layout-contracted'
-                 */
-                //contractedClass: 'rm-layout-contracted',
-
-                /**
-                 * Use CSS3 animation/transitions class name
-                 * @default 'rm-css-animate'
-                 * Do not use animation/transitions: ''
-                 */
-                //animateClass: 'rm-css-animate',
-
-                /**
-                 * Force GPU Acceleration class name
-                 * @default 'rm-accelerate'
-                 * Do not force: ''
-                 */
-                //accelerateClass: 'rm-accelerate',
-
-                /**
-                 * Use development mode - outputs information to html element on test page
-                 * Must uncomment appropriate if statements in the jQuery code
+                 * Use development mode - outputs information to console
                  * @default false
                  */
                 //developmentMode: false
@@ -213,7 +188,12 @@
                     <ul>
                         <li><a href="#">Sub Item 1</a></li>
                         <li><a href="#">Sub Item 2</a></li>
-                        <li><a href="#">Sub Item 3</a></li>
+                        <li><a href="#">Sub Item 3</a>
+                            <ul>
+                                <li><a href="#">Sub Sub Item 1</a></li>
+                                <li><a href="#">Sub Sub Item 2</a></li>
+                                <li><a href="#">Sub Sub Item 3</a></li>
+                            </ul></li>
                     </ul></li>
                 <li><a href="#">Main Item 5</a>
                     <ul>

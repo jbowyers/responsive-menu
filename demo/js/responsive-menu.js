@@ -42,7 +42,7 @@
 
         /**
          * Initialize option defaults and set options =============================
-         * @type {{minWidth: string, containerClass: string, toggleSel: string, menuSel: string, menuItemsSel: string, parentClass: string, expandedClass: string, contractedClass: string, transitionSpeed: number, animateClass: string, accelerateClass: string}}
+         * @type {{minWidth: string, toggleSel: string, menuSel: string, menuItemsSel: string, transitionSpeed: number, animateBool: string, accelerateBool: string}}
          */
         o.optionsInit = {
 
@@ -97,60 +97,30 @@
             menuItemsSel: 'li',
 
             /**
-             * The class the plugin adds to the container of the nav element
-             * @default 'rm-container'
+             * Use CSS3 animation/transitions Boolean
+             * @default true
+             * Do not use animation/transitions: false
              */
-            containerClass: 'rm-container',
+            animateBool: true,
 
             /**
-             * The class the plugin adds to the nav element
-             * @default 'rm-nav'
+             * Force GPU Acceleration Boolean
+             * @default false
+             * Do not force: false
              */
-            navElementClass: 'rm-nav',
-
-            /**
-             * The class the plugin adds to the top menu element
-             * @default 'rm-top-menu'
-             */
-            topMenuClass: 'rm-top-menu',
-
-            /**
-             * The class applied to menu items that contain a sub-menu
-             * @default 'rm-parent'
-             */
-            parentClass: 'rm-parent',
-
-            /**
-             * The class applied to container element to trigger expanded layout
-             * @default 'rm-layout-expanded'
-             */
-            expandedClass: 'rm-layout-expanded',
-
-            /**
-             * The class applied to container element to trigger contracted layout
-             * @default 'rm-layout-contracted'
-             */
-            contractedClass: 'rm-layout-contracted',
-
-            /**
-             * Use CSS3 animation/transitions class name
-             * @default 'rm-css-animate'
-             * Do not use animation/transitions: ''
-             */
-            animateClass: 'rm-css-animate',
-
-            /**
-             * Force GPU Acceleration class name
-             * @default 'rm-accelerate'
-             * Do not force: ''
-             */
-            accelerateClass: 'rm-accelerate',
+            accelerateBool: false,
 
             /**
              * the setup complete callback function
              * @default 'false'
              */
             setupCallback: false,
+
+            /**
+             * the tabindex start value - integer
+             * @default 1
+             */
+            tabindexStart: 1,
 
             /**
              * Use development mode - outputs information to console
@@ -165,26 +135,95 @@
         // Toggle Link object
         o.tButton = $( o.options.toggleSel );
 
+        // The class applied to the toggle Link element to make it a button
+        o.tButtonClass = 'rm-button';
+
+        // The class applied to the toggle Link element when it is visible
+        o.tButtonShowClass = 'rm-show';
+
+        // The class applied to the toggle Link element when it is visible
+        o.tButtonActiveClass = 'rm-active';
+
         // Nav element object - contains the menus
         o.el = $( el );
+
+        // The class the plugin adds to the nav element
+        o.navElementClass = 'rm-nav';
 
         // Container object - contains everything - the Nav element and Toggle Link
         o.container = o.el.parent();
 
+        // The class the plugin adds to the container of the nav element
+        o.containerClass = 'rm-container';
+
+        // The class applied to container element to trigger expanded layout
+        o.expandedClass = 'rm-layout-expanded';
+
+        // The class applied to container element to trigger contracted layout
+        o.contractedClass = 'rm-layout-contracted';
+
+        // The class that is removed from the toggle and nav element when JS is supported
+        o.noJSClass = 'rm-nojs';
+
         // All menu elements
         o.menus = o.el.find( o.options.menuSel );
+
+        // The class applied to all menu elements
+        o.menuClass = 'rm-menu';
 
         // Top level menu object - contains the menus
         o.topMenu = o.el.children( o.options.menuSel );
 
-        // Resize and Pause hover event timer function
-        o.timer = false;
+        // The class the plugin adds to the top menu element
+        o.topMenuClass = 'rm-top-menu';
+
+        // The class applied to menu/sub-menu element when menu is expanded
+        o.menuExpandedClass = 'rm-menu-expanded';
+
+        // The class applied to menu/sub-menu element when menu is hidden
+        o.menuHiddenClass = 'accessibly-hidden';
+
+        // The class the plugin adds to the menu elements when calculating height
+        o.menuCalcClass = 'rm-calculate';
+
+        // The class applied to all menu items
+        o.menuItemClass = 'rm-menu-item';
+
+        // The focused parent element
+        o.itemFocused = false;
+
+        // The class applied to menu items that contain a sub-menu
+        o.parentClass = 'rm-parent';
+
+        // The class applied to a menu item when its menu is expanded
+        o.itemHoverClass = 'rm-hover';
+
+        // The class applied to the first menu item
+        o.itemFirst = 'rm-first';
+
+        // The class applied to the last menu item
+        o.itemLast = 'rm-last';
+
+        // The class applied to the second to last menu item
+        o.item2ndLast = 'rm-2nd-last';
 
         // The CSS3 animate class variable
-        o.animateClass = o.options.animateClass;
+        o.animateClass = 'rm-css-animate';
+
+        // The CSS3 animate Boolean
+        o.animateBool = o.options.animateBool;
 
         // The GPU accelerate class variable
-        o.accelerateClass = o.options.accelerateClass;
+        o.accelerateClass = 'rm-accelerate';
+
+        // The GPU accelerate Boolean
+        o.accelerateBool = o.options.accelerateBool;
+
+        // The touchmove Boolean - did a touchmove event just occur
+        o.touchMoveBool = false;
+
+        // Resize and Pause hover event timer function
+        o.timer = false;
 
         // The window width - used to verify a window width change
         o.windowWidth = $( window ).width();
@@ -219,12 +258,6 @@
                 }
             });
 
-            // Contract menu if clicked outside menu
-            $( document ).on( 'click.rm', function () {
-                    contract( o.topMenu);
-                }
-            );
-
             // Run setupCallback function
             if ( typeof( o.options.setupCallback ) === "function" ) {
                 o.options.setupCallback();
@@ -240,77 +273,110 @@
         o.setup = function() { // Can be called again to reset plugin
 
             // Add the container class to the nav element's parent element
-            o.container.addClass( o.options.containerClass );
+            o.container.addClass( o.containerClass );
 
             // add rm-button class if using button
             if ( o.options.toggleBtnBool ) {
-                o.tButton.addClass( 'rm-button' );
+                o.tButton.addClass( o.tButtonClass );
             } else {
-                o.tButton.removeClass( 'rm-button' );
+                o.tButton.removeClass( o.tButtonClass );
             }
 
-            // Add the menus class to the menu elements
-            o.menus.addClass( 'rm-menu' );
+            // Remove o.noJSClass class and add click event to Toggle Link
+            o.tButton
+                .removeClass( o.noJSClass )
+                .off( 'mousedown.rm focusin.rm click.rm' )
 
-            // Add and remove classes and add click events
-            o.el
-                .removeClass( 'rm-nojs' )
-                .addClass( o.options.navElementClass )
-                .off( 'click.rm' )
-                .on( 'click.rm', '.' + o.options.parentClass, parentClick )
-                    .find( o.options.menuItemsSel + ':first-child' )
-                        .addClass( 'rm-first' ).end()
-                    .find( o.options.menuItemsSel + ':last-child' )
-                        .addClass( 'rm-last' )
-                            .prev().addClass( 'rm-2nd-last' ).end().end()
-                    .find( o.options.menuItemsSel )
-                        .addClass( 'rm-menu-item')
-                        .addBack()
-                        .removeClass( o.options.parentClass )
-                        .has( o.options.menuSel )
-                            .addClass( o.options.parentClass )
+                // Use mousedown and focus to trigger toggle
+                .on( 'mousedown.rm focusin.rm', tButtonFocus )
+
+                // Disable click events
+                .on( 'click.rm', tButtonClick )
+
+                .attr( 'tabindex', 0 )
             ;
 
-            // Make submenus accessibly hidden
+            // Add menu class and make submenus accessibly hidden
             o.menus
+                .addClass( o.menuClass )
                 .attr( 'aria-hidden', 'false' )
                 .hide();
 
             // Add top menu class
-            o.topMenu.addClass( o.options.topMenuClass );
+            o.topMenu.addClass( o.topMenuClass );
 
-            if ( o.animateClass ) { // using CSS3 transitions
+            // Adjust o.animateBool
+            if ( o.animateBool ) { // using CSS3 transitions
 
                 // Check if transitions and acceleration are supported
                 if ( typeof Modernizr !== 'undefined' ) { // Test with Modernizr
                     if ( !Modernizr.csstransitions ) {
-                        o.animateClass = '';
-                        o.accelerateClass = '';
+                        o.animateBool = false;
+                        o.accelerateBool = false;
                     } else if ( !Modernizr.csstransforms3d ) {
-                        o.accelerateClass = '';
+                        o.accelerateBool = false;
                     }
                 } else if ( !transitionsSupported() ) {
-                    o.animateClass = '';
-                    o.accelerateClass = '';
+                    o.animateBool = false;
+                    o.accelerateBool = false;
                 } else if ( !transform3DSupported()  ) {
-                    o.accelerateClass = '';
+                    o.accelerateBool = false;
                 }
             } else {
-                o.accelerateClass = '';
+                o.accelerateBool = false;
             }
 
-            // Remove 'rm-nojs' class and add click event to Toggle Link
-            o.tButton
-                .removeClass('rm-nojs')
-                .off( 'click.rm' )
-                .on( 'click.rm', tButtonClick);
+            // Add animate and accelerate classes if CSS3 animation
+            if ( o.animateBool ) {
+                o.menus.addClass( o.animateClass );
+                if ( o.accelerateBool ) {
+                    o.menus.addClass( o.accelerateClass );
+                }
+            }
+
+            // Add and remove classes and click events
+            o.el
+                .removeClass( o.noJSClass )
+                .addClass( o.navElementClass )
+                .off( 'focusin.rm focusout.rm click.rm touchend.rm touchmove.rm' )
+
+                // Use focus to trigger menu item focus/hover behaviour
+                .on( 'focusin.rm', o.options.menuItemsSel, itemFocus )
+
+                // De-focus menu on focus out
+                .on( 'focusout.rm', o.topMenu, menuBlur )
+
+                // Use click and touchend to trigger click behaviour
+                .on( 'click.rm touchend.rm', o.options.menuItemsSel, itemClick )
+
+                // Set touchMoveBool to true on touchmove event
+                .on( 'touchmove.rm', o.options.menuItemsSel, touchMove )
+                .find( o.options.menuItemsSel )
+                    .each( function(i) {
+                        var $el = $( this );
+                        $el
+                            .addClass( o.menuItemClass)
+                            .children( 'a' ).attr( 'tabindex', 0 )
+                        ;
+                        if ( $el.is( ':first-child') ) {
+                            $el.addClass( o.itemFirst );
+                        }
+                        if ( $el.is( ':last-child') ) {
+                            $el.addClass( o.itemLast )
+                                .prev().addClass( o.item2ndLast );
+                        }
+                    })
+                    .addBack()
+                    .removeClass( o.parentClass )
+                    .has( o.options.menuSel )
+                        .addClass( o.parentClass )
+            ;
 
             // Apply initial layout and adjustments
             o.adjust();
 
             return this;
         };
-
 
         /**
          * Adjust plugin ============================================================
@@ -353,50 +419,48 @@
          */
         o.layoutContracted = function() {
 
-            if ( !o.container.hasClass( o.options.contractedClass ) ) { // not contracted
+            if ( !o.container.hasClass( o.contractedClass ) ) { // not contracted
 
                 // Contract any expanded siblings and their children
-                contract( o.topMenu );
+                menuBlur( { 'type': 'layoutContracted' } );
 
                 // Apply Contracted class
                 o.container
-                    .removeClass( o.options.expandedClass )
-                    .addClass( o.options.contractedClass );
+                    .removeClass( o.expandedClass )
+                    .addClass( o.contractedClass )
+                    .find( '.' + o.itemHoverClass ).removeClass( o.itemHoverClass );
 
-                if ( o.animateClass ) { // using CSS3 transitions
+                if ( o.animateBool ) { // using CSS3 transitions
 
-                    // Recalculate menu heights and reset CSS3 transition styles
+                    // Recalculate menu heights
                     o.calculateHeights();
-                    o.menus.addClass( o.animateClass + ' ' + o.accelerateClass );
                 }
 
-                // Remove hover events on sub-menu parents
-                o.el.off( 'mouseenter.rm mouseleave.rm' );
+                // Remove hover events
+                o.el.off( 'mouseenter.le mouseleave.le' );
 
                 // Show Toggle Link and setup topMenu
-                o.tButton.addClass( 'rm-show' );
-                if ( !o.tButton.hasClass( 'rm-active' ) ) { // topMenu not active
+                o.tButton.addClass( o.tButtonShowClass );
+                if ( !o.tButton.hasClass( o.tButtonActiveClass ) ) { // topMenu not active
 
                     // Hide topMenu
                     o.topMenu
-                        .addClass( 'accessibly-hidden' )
-                        .show();
-                    if ( o.animateClass ) { // Using CSS3 transitions
-                        o.topMenu
-                            .removeClass( 'rm-menu-expanded' );
-                    }
+                        .addClass( o.menuHiddenClass )
+                        .show()
+                        .removeClass( o.menuExpandedClass )
+                    ;
                 } else { // topMenu is active
 
                     // Show topMenu
                     o.topMenu
-                        .removeClass( 'accessibly-hidden' )
-                        .show();
-                    if ( o.animateClass ) { // Using CSS3 transitions
+                        .removeClass( o.menuHiddenClass )
+                        .show()
+                        .addClass( o.menuExpandedClass );
+                    if ( o.animateBool ) { // Using CSS3 transitions
                         o.topMenu
                             .css({
                                 'max-height': 'none'
                             })
-                            .addClass( 'rm-menu-expanded' )
                         ;
                     }
                 }
@@ -414,41 +478,47 @@
          */
         o.layoutExpanded = function() {
 
-            if ( !o.container.hasClass( o.options.expandedClass ) ) { // not expanded
+            if ( !o.container.hasClass( o.expandedClass ) ) { // not expanded
 
                 // Contract any expanded siblings and their children
-                contract( o.topMenu);
+                menuBlur( { 'type': 'layoutExpanded' } );
 
                 // Apply expanded class to container
                 o.container
-                    .removeClass( o.options.contractedClass )
-                    .addClass( o.options.expandedClass  );
+                    .removeClass( o.contractedClass )
+                    .addClass( o.expandedClass  )
+                    .find( '.' + o.itemHoverClass ).removeClass( o.itemHoverClass );
 
-                if ( o.animateClass ) { // using CSS3 transitions
+                if ( o.animateBool ) { // using CSS3 transitions
 
-                    // Recalculate menu heights and reset CSS3 transition styles
+                    // Recalculate menu heights
                     o.calculateHeights();
-                    o.menus.addClass( o.animateClass + ' ' + o.accelerateClass );
                 }
 
-                // Add hover events to sub-menu parents
-                // Must be attached to parent menu item so mouseleave is not triggered when hovering sub-menu
-                o.el.off( 'mouseenter.rm mouseleave.rm' )
-                    // Add mouseenter to all menu items to ensure sub-menus contract properly
-                    .on( 'mouseenter.rm', o.options.menuItemsSel, parentEnter )
-                    // mouseleave only needed on sub-menu parents
-                    .on( 'mouseleave.rm', o.options.menuItemsSel, parentLeave );
+                // Re-apply mouse events
+                o.el.off( 'mouseenter.le mouseleave.le' )
+
+                    // Add mouseenter to all menu items to trigger focus
+                    .on( 'mouseenter.le', o.options.menuItemsSel, itemFocus )
+
+                    // Add mouseleave to trigger focus when re-entering parent of expanded menu
+                    .on( 'mouseleave.le', o.options.menuItemsSel, itemLeave )
+
+                    // Add mouseleave on topmenu to trigger menu blur
+                    .on( 'mouseleave.le', o.topMenu, menuBlur )
+                ;
 
                 // Show Menu - Hide Toggle Link
-                o.tButton.removeClass( 'rm-show' );
-                o.topMenu.removeClass( 'accessibly-hidden' )
-                    .show();
-                if ( o.animateClass ) { // Using CSS3 transitions
+                o.tButton.removeClass( o.tButtonShowClass );
+                o.topMenu.removeClass( o.menuHiddenClass )
+                    .show()
+                    .addClass( o.menuExpandedClass );
+                if ( o.animateBool ) { // Using CSS3 transitions
                     o.topMenu
                         .css({
-                            'max-height': 'none'
+                            'max-height': 'none',
+                            'overflow': 'visible'
                         })
-                        .addClass( 'rm-menu-expanded' )
                     ;
                 }
             }
@@ -467,8 +537,8 @@
 
             // Unstyle menus to original state to measure heights and then reapply styles
             o.menus
-                .addClass( 'rm-calculate' )
-                .removeClass( 'rm-menu-expanded' )
+                .addClass( o.menuCalcClass )
+                .removeClass( o.menuExpandedClass )
                 .attr( 'style', '' )
                 .show( 0 );
 
@@ -482,7 +552,7 @@
                 .css( {
                     'max-height': '0'
                 })
-                .removeClass( 'rm-calculate' )
+                .removeClass( o.menuCalcClass )
             ;
             return this;
         };
@@ -496,18 +566,18 @@
             // Contract all sub-menus
             contract( o.topMenu );
 
-            if ( !o.topMenu.hasClass( 'accessibly-hidden' ) ) { // topMenu is visible
+            if ( !o.topMenu.hasClass( o.menuHiddenClass ) ) { // topMenu is visible
 
                 // Hide topMenu
-                $( el ).removeClass( 'rm-active' );
+                $( el ).removeClass( o.tButtonActiveClass );
                 contract( o.container );
 
             } else { // menu is hidden
 
                 // Show topMenu
-                $( el ).addClass( 'rm-active' );
-                o.topMenu.removeClass( 'accessibly-hidden' );
-                if ( o.animateClass ) { // Using CSS3 transitions
+                $( el ).addClass( o.tButtonActiveClass );
+                o.topMenu.removeClass( o.menuHiddenClass );
+                if ( o.animateBool ) { // Using CSS3 transitions
                     o.topMenu.css( 'max-height', '0' );
                 } else { // Use jQuery animation
                     o.topMenu.hide( 0 );
@@ -520,6 +590,22 @@
         // internal Event Handler Functions ===============================================
 
         /**
+         * Toggle Btn focus and mousedown event handler
+         * @param {event} e - event object
+         */
+        var tButtonFocus = function( e ) {
+
+            e.stopPropagation();
+
+            var $el = $( e.target );
+
+            clearTimeout( o.timer );
+            o.timer = setTimeout( function () {
+                o.toggleMenu( e.target );
+            }, 100 );
+        };
+
+        /**
          * Toggle Btn Click event handler
          * @param {event} e - event object
          */
@@ -527,65 +613,106 @@
 
             e.preventDefault();
             e.stopPropagation();
-            o.toggleMenu( e.target );
-
         };
 
         /**
-         * Sub-menu parent click event handler
+         * Item click and touchend event handler
          * @param {event} e - event object
          */
-        var parentClick = function( e ) {
+        var itemClick = function( e ) {
 
             var $el = $( e.currentTarget );
+
             e.stopPropagation();
-            if ( !$el.hasClass( 'rm-hover' ) ) {
 
+            if ( ( $el.hasClass( o.itemHoverClass ) || !$el.hasClass( o.parentClass ) ) && !o.touchMoveBool ) {
+                location.href = $el.children( 'a' ).attr('href');
+                menuBlur( e );
+            } else if ( e.type !== 'touchend' ) {
                 e.preventDefault();
-                clearTimeout( o.timer );
-
-                // Contract any expanded siblings and their children
-                contract( $el.parent() );
-
-                // Expand sub-menu
-                expand( $el );
             }
 
+            o.touchMoveBool = false;
         };
 
         /**
-         * Sub-menu parent mouseenter event handler - used with expanded layout
+         * Menu item focus and mouseenter event handler -
+         * Triggers: focus, mouseenter
          * @param {event} e - event object
          */
-        var parentEnter = function( e ) {
+        var itemFocus = function( e ) {
 
             // get current target before it changes
             var $el = $( e.currentTarget );
 
             e.stopPropagation();
 
+            // Add focus if item does not have focus
+            if ( e.type !== 'focusin' ) {
+                $el.children( 'a' ).not( ':focus' ).focus();
+            }
+            o.itemFocused = $el;
+
             clearTimeout( o.timer );
             o.timer = setTimeout( function () {
 
-                // Contract any expanded siblings and their children
-                contract( $el.parent() );
-
-                // Add hover class to menuItem
-                $el.addClass( 'rm-hover' );
+                // Expand topmenu if toggle button is active and menu is contracted
+                if ( o.tButton.hasClass( o.tButtonShowClass ) && !o.tButton.hasClass( o.tButtonActiveClass )) {
+                    o.toggleMenu( o.tButton.get(0) );
+                }
 
                 // Expand menu
-                if ( $el.hasClass( o.options.parentClass ) ) {
-                    expand( $el );
-                }
-            }, 200 );
+                if ( $el.hasClass( o.parentClass ) ) {
 
+                    if ( !$el.hasClass( o.itemHoverClass ) ) {
+
+                        // Contract any expanded siblings and their children
+                        contract( $el.parent() );
+
+                        expand( $el );
+                    }
+                } else {
+                    // Contract any expanded siblings and their children
+                    contract( $el.parent() );
+                }
+            }, 100 );
         };
 
         /**
-         * Sub-menu parent item mouseleave event handler - used with expanded layout
+         * Touchmove event handler
          * @param {event} e - event object
          */
-        var parentLeave = function( e ) {
+        var touchMove = function( e ) {
+            o.touchMoveBool = true;
+        };
+
+        /**
+         * Topmenu mouseleave and foucusout event handler
+         * Triggers: mouseleave, focusout
+         * @param {event} e - event object
+         */
+        var menuBlur = function( e ) {
+
+            // Define event type if e is undefined
+            e = e || { 'type': 'callback' };
+
+            clearTimeout( o.timer );
+            o.timer = setTimeout( function () {
+
+                if ( o.itemFocused ) {
+                    o.itemFocused.children( 'a' ).blur();
+                    o.itemFocused = false;
+                }
+                contract( o.topMenu );
+            }, 100 );
+        };
+
+        /**
+         * Sub-menu item mouseleave event handler - used with expanded layout
+         * Triggers: mouseleave
+         * @param {event} e - event object
+         */
+        var itemLeave = function( e ) {
 
             // get current target before it changes
             var $el = $( e.currentTarget );
@@ -593,10 +720,9 @@
             clearTimeout( o.timer );
             o.timer = setTimeout( function () {
 
-                // Contract any expanded siblings and their children
-                contract( $el.parent() );
-            }, 200 );
-
+                // Focus the parent element of the expanded menu
+                $el.parent().parent().children( 'a' ).focus();
+            }, 100 );
         };
 
         /**
@@ -606,26 +732,32 @@
         var transitionEndContract = function( e ) {
 
             if ( e.originalEvent.propertyName === 'max-height' ) {
+
                 var $el = $( e.currentTarget );
                 e.stopPropagation();
 
-                // Contract menu
+                // Menu Contracted
                 $el
                     .css( {
                         'transition': '',
-                        'max-height': '0'
+                        'max-height': '0',
+                        'overflow': 'hidden'
                     } )
-                    .removeClass( 'rm-menu-expanded' )
+                    .removeClass( o.menuExpandedClass )
                     .off( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd' )
+                    .parent().find( '.' + o.itemHoverClass ).addBack().removeClass( o.itemHoverClass )
                 ;
 
-                if ( $el.hasClass( o.options.topMenuClass ) ) { // is topMenu
+                if ( $el.hasClass( o.topMenuClass ) ) { // is topMenu
 
                     // accessibly hide topMenu
                     $el
-                        .addClass( 'accessibly-hidden' )
+                        .addClass( o.menuHiddenClass )
                         .show( 0 );
                 }
+
+                // Scroll to expanded menu
+                scrollMenu( o.itemFocused );
             }
         };
 
@@ -639,16 +771,21 @@
                 var $el = $( e.currentTarget );
                 e.stopPropagation();
 
-                // Expand menu
+                // Menu expanded
                 $el
-                    .removeClass( 'accessibly-hidden' )
+                    .removeClass( o.menuHiddenClass )
                     .css( {
                         'transition': '',
-                        'max-height': 'none'
+                        'max-height': 'none',
+                        'overflow': 'visible'
                     } )
-                    .addClass( 'rm-menu-expanded' )
+                    .addClass( o.menuExpandedClass )
                     .off( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd' )
                 ;
+                $el.parent( '.' + o.parentClass ).addClass( o.itemHoverClass );
+
+                // Scroll to expanded menu
+                scrollMenu( o.itemFocused );
             }
         };
 
@@ -660,24 +797,20 @@
          */
         var contract = function( $parent ) {
 
-            // Blur clicked element and remove hover class from parents
-            $parent
-                .find( 'a' ).blur().end()
-                .find( o.options.menuItemsSel )
-                    .removeClass( 'rm-hover' );
+            var $menus = $parent.find( o.options.menuSel );
 
-            if ( o.animateClass ) { // Using CSS3 transitions
-                var $menus = $parent.find( o.options.menuSel );
+            if ( o.animateBool ) { // Using CSS3 transitions
 
                 // Set max-height to height of each expanded menu
                 $menus.each( function(){
                     var $el = $( this );
                     if ( $el.height() !== 0 ) {
                         $el
-                            .css( {
+                            .css({
                                 'max-height': $el.height(),
-                                'transition': 'max-height ' + String( o.options.transitionSpeed / 1000 ) + 's ' + o.options.css3Easing
-                            } )
+                                'transition': 'max-height ' + String( o.options.transitionSpeed / 1000 ) + 's ' + o.options.css3Easing,
+                                'overflow': 'hidden'
+                            })
                             .on( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', transitionEndContract )
                         ;
                     } else {
@@ -690,24 +823,42 @@
 
                 // Contract menu
                 $menus
-                    .css( {
-
+                    .css({
                         'max-height': '0'
                     })
-                    .removeClass( 'rm-menu-expanded' )
+                    .removeClass( o.menuExpandedClass )
                 ;
 
             } else { // Use jQuery animation
 
                 // Contract menus
-                $parent.find( o.options.menuSel )
-                    .slideUp( o.options.transitionSpeed, o.options.jqueryEasing, function (){
-                        if ( $( this ).hasClass( o.options.topMenuClass ) ) {
-                            o.topMenu.addClass( 'accessibly-hidden' );
-                        }
-                    } );
-            }
+                $menus.each( function() {
 
+                    var $el = $( this );
+
+                    if ( $el.height() !== 0 ) {
+
+                        $el
+                            .slideUp( o.options.transitionSpeed, o.options.jqueryEasing, function () {
+
+                                $el
+                                    .css( 'overflow', 'visible' )
+                                    .removeClass( o.menuExpandedClass )
+                                    .parent( '.' + o.parentClass )
+                                    .removeClass( o.itemHoverClass )
+                                ;
+
+                                if ( $el.hasClass( o.topMenuClass ) ) {
+                                    o.topMenu.addClass( o.menuHiddenClass );
+                                }
+
+                                // Scroll to expanded menu
+                                scrollMenu( o.itemFocused );
+                            })
+                        ;
+                    }
+                });
+            }
         };
 
         /**
@@ -719,10 +870,11 @@
             // Define menu
             var $menu = $el.children( o.options.menuSel );
 
-            // Add hover class to parent menuItem
-            $el.addClass( 'rm-hover' );
+            // Remove hover class from siblings
+            $el.siblings( '.' + o.itemHoverClass )
+                .removeClass( o.itemHoverClass );
 
-            if ( o.animateClass ) { // Using CSS3 transitions
+            if ( o.animateBool ) { // Using CSS3 transitions
 
                 // Expand menu
                 $menu
@@ -736,9 +888,19 @@
 
                 // Expand menu
                 $menu
-                    .slideDown( o.options.transitionSpeed, o.options.jqueryEasing );
-            }
+                    .slideDown( o.options.transitionSpeed, o.options.jqueryEasing, function() {
+                        $el.addClass( o.itemHoverClass );
+                        $menu
+                            .addClass( o.menuExpandedClass )
+                            .css( 'overflow','visible' )
+                        ;
+                        console.log('jquery expand');
 
+                        // Scroll to expanded menu
+                        scrollMenu( o.itemFocused );
+                    })
+                ;
+            }
         };
 
         // initialize ----------------------------------------------------------------
@@ -815,6 +977,25 @@
         }
 
         return false;
+    };
+
+    /**
+     * Scroll Menu into viewport if off screen
+     * @returns {boolean}
+     */
+    var scrollMenu = function( $el ) {
+
+        if ( $el.length ) {
+
+            var viewTop = $( window ).scrollTop();
+            var viewBottom = viewTop + $( window ).height();
+            var boundsTop = $el.offset().top;
+            var boundsBottom = boundsTop + $el.outerHeight();
+
+            if ( boundsBottom > viewBottom || boundsTop < viewTop ) {
+                $( 'html, body' ).animate( { scrollTop: boundsTop }, 'slow' );
+            }
+        }
     };
 
 })( jQuery, window, document, Math );

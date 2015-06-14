@@ -72,7 +72,6 @@ to work with the chosen theme.
 /* Menu Element */
 .rm-nav > ul,
 .rm-top-menu {
-    /*float: none;*/
     clear: both;
     list-style: none;
     padding: 0;
@@ -158,62 +157,94 @@ to work with the chosen theme.
     transition: background-color 0.3s;
 }
 
-.rm-toggle:hover {
+.rm-toggle:hover,
+.rm-toggle:focus {
     background-color: rgb(156, 156, 156); /* fallback */
     background-color: rgba(156, 156, 156, .5);
+    outline: none;
 }
 
 .rm-lighten li li a,
 .rm-lighten li a:focus,
-.rm-lighten li.rm-hover > a,
+.rm-lighten li a:hover,
+.rm-lighten li.rm-hover a,
 .rm-lighten .rm-menu-item .rm-menu-item a,
 .rm-lighten .rm-menu-item a:focus,
+.rm-lighten .rm-menu-item a:hover,
 .rm-lighten .rm-menu-item.rm-hover > a {
     background-color: rgb(32, 32, 32); /* fallback */
     background-color: rgba(255, 255, 255, .1);
+    outline: none;
 }
 
 .rm-lighten li li li a,
 .rm-lighten li li a:focus,
-.rm-lighten li li.rm-hover > a,
+.rm-lighten li li a:hover,
+.rm-lighten li li.rm-hover a,
+.rm-lighten .rm-menu-expanded li a:focus,
+.rm-lighten .rm-menu-expanded li a:hover,
 .rm-lighten .rm-menu-item .rm-menu-item .rm-menu-item a,
 .rm-lighten .rm-menu-item .rm-menu-item a:focus,
-.rm-lighten .rm-menu-item .rm-menu-item.rm-hover > a {
+.rm-lighten .rm-menu-item .rm-menu-item a:hover,
+.rm-lighten .rm-menu-item .rm-menu-item.rm-hover a,
+.rm-lighten .rm-menu-expanded li a:focus,
+.rm-lighten .rm-menu-expanded li a:hover {
     background-color: rgb(96, 96, 96); /* fallback */
     background-color: rgba(255, 255, 255, .2);
 }
 
 .rm-lighten li li li a:focus,
-.rm-lighten li li li.rm-hover > a,
+.rm-lighten li li li a:hover,
+.rm-lighten li li li.rm-hover a,
+.rm-lighten li .rm-menu-expanded a:focus,
+.rm-lighten li .rm-menu-expanded a:hover,
 .rm-lighten .rm-menu-item .rm-menu-item .rm-menu-item a:focus,
-.rm-lighten .rm-menu-item .rm-menu-item .rm-menu-item.rm-hover > a {
+.rm-lighten .rm-menu-item .rm-menu-item .rm-menu-item a:hover,
+.rm-lighten .rm-menu-item .rm-menu-item .rm-menu-item.rm-hover a,
+.rm-lighten .rm-menu-item .rm-menu-expanded a:focus,
+.rm-lighten .rm-menu-item .rm-menu-expanded a:hover {
     background-color: rgb(128, 128, 128); /* fallback */
     background-color: rgba(255, 255, 255, .3);
 }
 
 .rm-darken li li a,
 .rm-darken li a:focus,
-.rm-darken li.rm-hover > a,
+.rm-darken li a:hover,
+.rm-darken li.rm-hover a,
 .rm-darken .rm-menu-item .rm-menu-item a,
 .rm-darken .rm-menu-item a:focus,
+.rm-darken .rm-menu-item a:hover,
 .rm-darken .rm-menu-item.rm-hover > a {
     background-color: rgb(192, 192, 192); /* fallback */
     background-color: rgba(0, 0, 0, .1);
+    outline: none;
 }
 
 .rm-darken li li li a,
 .rm-darken li li a:focus,
-.rm-darken li li.rm-hover > a,
+.rm-darken li li a:hover,
+.rm-darken li li.rm-hover a,
+.rm-darken .rm-menu-expanded li a:focus,
+.rm-darken .rm-menu-expanded li a:hover,
 .rm-darken .rm-menu-item .rm-menu-item .rm-menu-item a,
 .rm-darken .rm-menu-item .rm-menu-item a:focus,
-.rm-darken .rm-menu-item .rm-menu-item.rm-hover > a {
+.rm-darken .rm-menu-item .rm-menu-item a:hover,
+.rm-darken .rm-menu-item .rm-menu-item.rm-hover a,
+.rm-darken .rm-menu-expanded li a:focus,
+.rm-darken .rm-menu-expanded li a:hover {
     background-color: rgb(160, 160, 160); /* fallback */
     background-color: rgba(0, 0, 0, .2);
 }
 .rm-darken li li li a:focus,
-.rm-darken li li li.rm-hover > a,
+.rm-darken li li li a:hover,
+.rm-darken li li li.rm-hover a,
+.rm-darken li .rm-menu-expanded a:focus,
+.rm-darken li .rm-menu-expanded a:hover,
 .rm-darken .rm-menu-item .rm-menu-item .rm-menu-item a:focus,
-.rm-darken .rm-menu-item .rm-menu-item .rm-menu-item.rm-hover > a{
+.rm-darken .rm-menu-item .rm-menu-item .rm-menu-item a:hover,
+.rm-darken .rm-menu-item .rm-menu-item .rm-menu-item.rm-hover a,
+.rm-darken .rm-menu-item .rm-menu-expanded a:focus,
+.rm-darken .rm-menu-item .rm-menu-expanded a:hover {
     background-color: rgb(128, 128, 128); /* fallback */
     background-color: rgba(0, 0, 0, .3);
 }
