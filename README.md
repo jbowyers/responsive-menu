@@ -95,39 +95,16 @@ default: 'ul'
 The menu items selector  
 default: 'li'
 
-#### containerClass ####
-The class the plugin adds to the container of the nav element  
-default: 'rm-container'
 
-#### navElementClass ####
-The class the plugin adds to the nav element  
-default: 'rm-nav'
+#### animateBool ####
+Use CSS3 animation/transitions  
+default: true  
+Do not use animation/transitions: false
 
-#### topMenuClass ####
-The class the plugin adds to the top menu element  
-default: 'rm-top-menu'
-
-#### parentClass ####
-The class applied to menu items that contain a sub-menu  
-default: 'rm-parent'
-
-#### expandedClass ####
-The class applied to container element to trigger expanded layout  
-default: 'rm-layout-expanded'
-
-#### contractedClass ####
-The class applied to container element to trigger contracted layout  
-default: 'rm-layout-contracted'
-
-#### animateClass ####
-Use CSS3 animation/transitions class name  
-default: 'rm-css-animate'  
-Do not use animation/transitions: ''
-
-#### accelerateClass ####
-Force GPU Acceleration class name  
-default: 'rm-accelerate'  
-Do not force: ''
+#### accelerateBool ####
+Force GPU Acceleration 
+default: false  
+Force: true
 
 #### developmentMode ####
 Use development mode - outputs information to console  
