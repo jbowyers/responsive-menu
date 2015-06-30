@@ -117,12 +117,6 @@
             setupCallback: false,
 
             /**
-             * the tabindex start value - integer
-             * @default 1
-             */
-            tabindexStart: 1,
-
-            /**
              * Use development mode - outputs information to console
              * @default false
              */
@@ -293,7 +287,7 @@
                 // Disable click events
                 .on( 'click.rm', tButtonClick )
 
-                .attr( 'tabindex', 0 )
+                .not( '[tabindex]' ).attr( 'tabindex', 0 )
             ;
 
             // Add menu class and make submenus accessibly hidden
@@ -356,7 +350,7 @@
                         var $el = $( this );
                         $el
                             .addClass( o.menuItemClass)
-                            .children( 'a' ).attr( 'tabindex', 0 )
+                            .children( 'a' ).not( '[tabindex]' ).attr( 'tabindex', 0 )
                         ;
                         if ( $el.is( ':first-child') ) {
                             $el.addClass( o.itemFirst );
