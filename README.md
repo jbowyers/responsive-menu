@@ -5,17 +5,12 @@ JavaScript file and CSS file as well as sample HTML.
 
 * **Description**: Drop-down Menu jQuery plugin for responsive layouts
 * **Repository**: https://github.com/jbowyers/responsive-menu
-* **Demo**: http://responsive-menu.com
 * **Bower**: jquery-responsive-menu
 * **Requires**: jQuery
 * **Author**: jbowyers
 * **Copyright**: 2015 jbowyers
 * **License**: GPLv3
 * **Version: 0.2.1**
-
-## Demo ##
-
-Visit http://responsive-menu.com to view a responsive demo
 
 ## Basic Setup ##
 
